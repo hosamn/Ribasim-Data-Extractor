@@ -1,0 +1,28 @@
+Improve and clarify the following prompt and ask for any missing info to make a well-designed and executed app:
+
+````
+
+Create a Python CLI application for extracting data from Ribasim simulation files (like discharge, velocity, water level, any other available data from the ".his" data files found within case folder) with the following specifications:
+
+Give the user a multi choice selector where he selects the 'Basin', get the list of available basins from the folders with names ending with ".rbn" or ".Rbd" from (C:\Ribasim7) like: ["JCARWQV7.Rbd", "JCARWQ81.Rbd"] exclude ["C:\Ribasim7\xxxx.rbn", "C:\Ribasim7\yyyy.rbd"]
+
+Then give the user a multi choice selector where he selects the 'Case' (grab the list of available cases and case numbers from "CASELIST.CMT" found within the basin folder selected in the previous step) the file format is [case_number "case_name"\ncase_number "case_name"\n ... ]
+
+The case_number of the case selected in the previous step is the name of the case folder found under the basin folder, where you'll find the target ".his" data files.
+
+The app should scan through the .his files in the case folder, and give the user a selection with appropriate choices where he chooses the data he wants.
+
+The exact structure/format of the ".his" files and the usable methods can be found in the attached python file 
+
+Example directory structure attached.
+
+A sample of the CASELIST.CMT file attached
+
+For the extracted data, make the options to aggregate, view, graph, export as csv/Excel.
+
+Data aggregation requirements [daily averages, dekadal (3 periods per month), etc.]
+
+Try to handle errors gracefully
+
+````
+
