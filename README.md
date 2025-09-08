@@ -1,5 +1,6 @@
-# Ribasim-Data-Extractor
-Extract &amp; analyze Ribasim simulation results' files
+Ribasim Data Extractor CLI - By Eng. Hosam El Nagar
+
+Extract & analyze Ribasim simulation results' files
 
 
 Based on https://gitlab.com/visr/his-python
