@@ -2,7 +2,7 @@
 
 ## High Priority
 - [x] **Add Command-Line Arguments:** Implement a full CLI interface using `click` or `argparse` to allow for non-interactive use and scripting. For example: `python ribasim_extractor.py --basin "MyBasin.rbn" --case 1 --export csv`.
-- [ ] **Show used option Arguments** after an export, show the CLI arguments that can be used to execute the same current task again directly in non-interactive mode.
+- [x] **Show used option Arguments** after an export, show the CLI arguments that can be used to execute the same current task again directly in non-interactive mode.
 - [ ] **Parameter Filtering:** After selecting a `.his` file and showing the data, allow the user to choose specific parameters to load or analyze if they want (a "Select Parameter" option in the Available Actions). This will improve performance and reduce memory usage for large files.
 - [ ] **Display file metadata:** while the user is choosing between the his files, the file's description from [Dataset Attributes - header] is shown to help the user understand the file's content.
 - [ ] **Open with Default viewer** after selecting the his file, add the option: "Open with ODS_View" (in the Available Actions) to open the file in the viewer from "C:\Ribasim7\Programs\ODS_View\ODS_View.exe"

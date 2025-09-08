@@ -384,7 +384,18 @@ def interactive_mode():
 
                 if format_answer:
                     output_path = Prompt.ask("Enter output filename (without extension)", default="ribasim_export")
-                    extractor.export_data(dataset, format_answer['format'], output_path)
+                    export_format = format_answer['format']
+                    extractor.export_data(dataset, export_format, output_path)
+
+                    # Show the equivalent CLI command
+                    command = (
+                        f"python ribasim_extractor.py --basin \"{extractor.selected_basin}\" "
+                        f"--case \"{extractor.selected_case}\" "
+                        f"--his-file \"{selected_his}\" "
+                        f"--export \"{export_format}\""
+                    )
+                    console.print("\n[bold cyan]CLI command to run this export directly:[/bold cyan]")
+                    console.print(f"[cyan]{command}[/cyan]")
 
     except KeyboardInterrupt:
         console.print("\n[yellow]Operation cancelled by user.[/yellow]")
