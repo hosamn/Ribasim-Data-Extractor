@@ -22,7 +22,7 @@ Extract & analyze Ribasim simulation results' files
    4. Data Analysis and Visualization: After extraction, the user is presented with a menu of actions to choose from.
 
 
-  You can now run the application in two ways:
+### You can now run the application in two ways:
 
 
    1. Interactive Mode (no arguments):
