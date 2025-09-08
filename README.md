@@ -3,14 +3,15 @@
 Extract & analyze Ribasim simulation results' files
 
 
-  ### Project Overview
+### Project Overview
 
 
   This project is a Python-based command-line interface (CLI) application named "Ribasim Data Extractor". Its primary purpose is to extract, analyze, and
   visualize data from Ribasim simulation files, specifically focusing on .his files. The application is designed to be interactive, guiding the user through a
   series of steps to select the data they are interested in.
 
-  ### Core Functionality
+
+### Core Functionality
 
 
    1. Basin and Case Selection: The user is prompted to select a "Basin" from a list of available .rbn or .Rbd folders located in C:\Ribasim7. After selecting a
@@ -22,19 +23,18 @@ Extract & analyze Ribasim simulation results' files
    4. Data Analysis and Visualization: After extraction, the user is presented with a menu of actions to choose from.
 
 
-### You can now run the application in two ways:
+### You can run the application in one of two ways:
 
 
-   1. Interactive Mode (no arguments):
-  `shell
+   1. Interactive Mode (no arguments) This will launch the interactive menu.
+
+  ```shell
       python ribasim_extractor.py
-      `
-      This will launch the familiar interactive menu.
+  ```
 
 
-   2. Non-Interactive Mode (with arguments):
-  `shell
+   2. Non-Interactive Mode (with arguments) This will directly process the specified file and export it without any user prompts. Note that all arguments are required.
+
+  ```shell
       python ribasim_extractor.py --basin "JCARWQV7.Rbd" --case "2" --his-file "some_file.his" --export "csv"
-      `
-      This will directly process the specified file and export it without any user prompts. Note that --basin, --case, and --his-file are all
-  required to use this mode.
+  ```
