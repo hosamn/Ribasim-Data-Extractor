@@ -20,3 +20,21 @@ Extract & analyze Ribasim simulation results' files
    3. Data Extraction and Processing: The application uses a custom his module (Based on https://gitlab.com/visr/his-python) to read the binary .his files. This module, based
       on xarray and pandas, parses the file format and extracts the simulation data.
    4. Data Analysis and Visualization: After extraction, the user is presented with a menu of actions to choose from.
+
+
+  You can now run the application in two ways:
+
+
+   1. Interactive Mode (no arguments):
+  `shell
+      python ribasim_extractor.py
+      `
+      This will launch the familiar interactive menu.
+
+
+   2. Non-Interactive Mode (with arguments):
+  `shell
+      python ribasim_extractor.py --basin "JCARWQV7.Rbd" --case "2" --his-file "some_file.his" --export "csv"
+      `
+      This will directly process the specified file and export it without any user prompts. Note that --basin, --case, and --his-file are all
+  required to use this mode.

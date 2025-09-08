@@ -1,12 +1,13 @@
 #######################################################
 #   Ribasim Data Extractor CLI - By Eng. Hosam El Nagar
 #   Extract & analyze Ribasim simulation results' files
+#   Based on https://gitlab.com/visr/his-python
 #######################################################
 
 
 # import os
 # import sys
-# import click
+import click
 # import argparse
 # import seaborn as sns
 import re
@@ -76,7 +77,7 @@ class RibasimDataExtractor:
                 content = f.read()
 
             # Parse the format: case_number "case_name"
-            pattern = r'(\d+)\s+"([^"]+)"'
+            pattern = r'(\d+)\s+"([^\"]+)"'
             matches = re.findall(pattern, content)
 
             for case_number, case_name in matches:
@@ -253,10 +254,8 @@ class RibasimDataExtractor:
             console.print(f"[red]Error exporting data: {e}[/red]")
 
 
-def main():
-    """Main CLI interface."""
-    console.print(Panel.fit("""         🌊 Ribasim Data Extractor\n\nExtract & analyze Ribasim simulation results\n          By:  Eng. Hosam El-Nagar""", style="bold blue"))
-
+def interactive_mode():
+    """Run the application in interactive mode."""
     extractor = RibasimDataExtractor()
 
     try:
@@ -387,12 +386,79 @@ def main():
                     output_path = Prompt.ask("Enter output filename (without extension)", default="ribasim_export")
                     extractor.export_data(dataset, format_answer['format'], output_path)
 
-        console.print("\n[green]Thank you for using Ribasim Data Extractor![/green]")
-
     except KeyboardInterrupt:
         console.print("\n[yellow]Operation cancelled by user.[/yellow]")
     except Exception as e:
         console.print(f"\n[red]Unexpected error: {e}[/red]")
+
+
+def cli_mode(basin: str, case: str, his_file: str, export: str):
+    """Run the application in non-interactive CLI mode."""
+    extractor = RibasimDataExtractor()
+    extractor.selected_basin = basin
+    extractor.selected_case = case
+
+    console.print("[bold]Running in non-interactive mode...[/bold]")
+    console.print(f"Basin: {basin}, Case: {case}, File: {his_file}, Export: {export}")
+
+    # Validate inputs
+    if basin not in extractor.get_available_basins():
+        console.print(f"[red]Error: Basin '{basin}' not found.[/red]")
+        return
+
+    case_folder_path = extractor.base_path / basin / case
+    if not case_folder_path.exists() or not case_folder_path.is_dir():
+        console.print(f"[red]Error: Case folder '{case}' not found in basin '{basin}'.[/red]")
+        return
+
+    available_files = extractor.scan_his_files(basin, case)
+    if his_file not in available_files:
+        console.print(f"[red]Error: .his file '{his_file}' not found in case '{case}'.[/red]")
+        console.print(f"Available files: {available_files}")
+        return
+
+    # Extract data
+    with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}")) as progress:
+        task = progress.add_task(f"Loading data from {his_file}...", total=None)
+        dataset = extractor.extract_his_data(his_file)
+        progress.update(task, description="Data loaded successfully!")
+
+    if dataset is None:
+        console.print("[red]Failed to extract data.[/red]")
+        return
+
+    extractor.display_data_summary(dataset)
+
+    # Export data
+    if export:
+        if export.lower() not in ["csv", "excel"]:
+            console.print(f"[red]Error: Invalid export format '{export}'. Choose 'csv' or 'excel'.[/red]")
+            return
+
+        output_path = f"{Path(his_file).stem}_{export}"
+        console.print(f"\n[bold]Exporting data to {export.upper()}...[/bold]")
+        extractor.export_data(dataset, export, output_path)
+
+
+@click.command()
+@click.option('--basin', default=None, help='The basin name (e.g., "JCARWQV7.Rbd")')
+@click.option('--case', default=None, help='The case number (e.g., "1")')
+@click.option('--his-file', 'his_file', default=None, help='The .his file to process (relative to the case folder)')
+@click.option('--export', default=None, help='Export format: "csv" or "excel"')
+def main(basin: Optional[str], case: Optional[str], his_file: Optional[str], export: Optional[str]):
+    """Main CLI interface.\n\nExample:   ribasim_extractor.py --basin "JCARWQV7.Rbd" --case "2" --his-file "TOTPLAN.HIS" --export "csv" """
+    console.print(Panel.fit("""         🌊 Ribasim Data Extractor\n\nExtract & analyze Ribasim simulation results\n          By:  Eng. Hosam El-Nagar""", style="bold blue"))
+
+    # If any CLI arguments are provided, run in non-interactive mode
+    if any([basin, case, his_file, export]):
+        if not all([basin, case, his_file]):
+            console.print("[red]Error: --basin, --case, and --his-file are all required for non-interactive mode.[/red]")
+            return
+        cli_mode(basin, case, his_file, export)
+    else:
+        interactive_mode()
+
+    console.print("\n[green]Thank you for using Ribasim Data Extractor![/green]")
 
 
 if __name__ == "__main__":
