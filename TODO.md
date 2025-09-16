@@ -8,7 +8,7 @@
 - [ ] **Output file name** change the default outbut file name to be like [Basin_Name-Case-Name-first_part_of_His_description]
 - [ ] **Open with Default viewer** after selecting the his file, add the option: "Open with ODS_View" (in the Available Actions) to open the file in the viewer from "C:\Ribasim7\Programs\ODS_View\ODS_View.exe"
 - [ ] **Parameter Filtering:** After selecting a `.his` file and showing the data, allow the user to choose specific parameters to load or analyze if they want (a "Select Parameter" option in the Available Actions). This will improve performance and reduce memory usage for large files.
-- [ ] **Load Cases from folders** read the case list directly from folder names along with using caselist.cmt, then display a comment beside the case name wether it is in the caselist or not, like this: "Case xx CASE_NAME (in case list)" or "Case xx CASE_NAME (not in case list)"
+- [ ] **Load Cases from folders** Allow listing and interaction with case folder names that are not listed in caselist.cmt (folders inside the basin folder with number names) along with cases from caselist.cmt, then display a comment beside the case name wether it is in the caselist or not, like this: "Case xx CASE_NAME" or "Case xx (not in caselist.cmt)", The case list should always have the case name if available.
 
 ## Feature Enhancements
 
